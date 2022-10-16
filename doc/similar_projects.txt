@@ -1,0 +1,10 @@
+https://github.com/daviddiazvico/scikit-visualizations
+
+https://github.com/reiinakano/scikit-plot/tree/master
+
+https://www.statsmodels.org/stable/index.html
+General statistical analysis and exploration.
+No visualization, only returning information on the model.
+
+https://docs.wandb.ai/guides/integrations/scikit
+Weights and Biases. ML visualization, training, ...

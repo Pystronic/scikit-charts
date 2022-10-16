@@ -1,0 +1,21 @@
+Scikit-Learn provides few inherent visualization capabilities [a]. 
+New plots require the use of matplotlib [b] or other plotting libraries.
+
+The scikit-plot project provides additional plotting capabilities to Scikit.
+It is hosted on GitHub [c] under the MIT license. The project expands Scikit by adding plots for additional metrics.
+However, it is no longer actively devloped. The last commit was added in 2018. Fixes for existing issues are no longer added
+to the repository.
+
+Weights & Biases [d] is a general plattform for ML development and offers support for Scikit. The provided plots [e] are similar 
+to scikit-plot. A disadvantige is the requirement for a comercial plan for teams and enterprises. However, additional
+functionalities like model versioning are provided in return.
+
+(?)
+
+[a] https://scikit-learn.org/stable/visualizations.html
+[b] https://matplotlib.org/stable/index.html
+
+[c] https://github.com/reiinakano/scikit-plot/tree/master (ToDo: Cite as shown in Github)
+
+[d] https://wandb.ai/
+[e] https://docs.wandb.ai/guides/integrations/scikit

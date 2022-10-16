@@ -1,0 +1,11 @@
+ 
+https://scikit-learn.org/stable/modules/classes.html 
+
+https://matplotlib.org/stable/api/index.html
+
+https://link-springer-com.fhooe.idm.oclc.org/book/10.1007/978-1-4842-5373-1
+ToDo: Read
+Hands-on-skicit-learn-for-machine-learning
+
+https://ieeexplore.ieee.org/abstract/document/9391750
+ToDo: Get access
