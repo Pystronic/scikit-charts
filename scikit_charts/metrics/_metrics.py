@@ -1,3 +1,10 @@
+"""
+This module contains the implementation for gathering
+metrics from the training data. The metrics are then
+displayed using the charts implemented in
+scikit_charts.charts.
+"""
+
 from enum import Enum
 from typing import TypeAlias, Callable, Final, Tuple, Union
 
@@ -11,7 +18,8 @@ Datatype which is internally used to store metric values.
 
 PredictFunction: TypeAlias = Callable[[Tuple[float]], float]
 """
-Interface of a prediction function, which takes one or more X values and returns the predicted Y value.
+Interface of a prediction function, which takes one or more 
+X values and returns the predicted Y value.
 """
 
 
@@ -53,7 +61,8 @@ def create_metrics(
     :param x: 2D-array of feature values, which was used to train the prediction model
     :param y: 1D-array of target values with the same length as x
     :param predict: function reference to the predict-function of the trained model
-    :return: created DataFrame containing index, features(x0..xn), target, prediction, residual and relative_error
+    :return: created DataFrame containing index, features(x0..xn),
+    target, prediction, residual and relative_error
     :raises ValueError: raised if x or y have the wrong shape or are empty
     :raises PredictionException: raised if an exception is raised while calculating the prediction
     """
@@ -81,8 +90,10 @@ def create_metrics(
         metric_frame[f"x{i}"] = x_col[i]
 
     metric_frame[MetricEnum.TARGET] = y
-    metric_frame[MetricEnum.PREDICTION] = _generate_predictions(x, predict)
-    metric_frame[MetricEnum.RESIDUAL] = metric_frame[MetricEnum.TARGET] - metric_frame[MetricEnum.PREDICTION]
+    metric_frame[MetricEnum.PREDICTION] = \
+        _generate_predictions(x, predict)
+    metric_frame[MetricEnum.RESIDUAL] = \
+        metric_frame[MetricEnum.TARGET] - metric_frame[MetricEnum.PREDICTION]
     metric_frame[MetricEnum.RELATIVE_ERROR] = np.divide(
         metric_frame[MetricEnum.RESIDUAL],
         metric_frame[MetricEnum.TARGET]
