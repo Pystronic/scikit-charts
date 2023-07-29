@@ -59,7 +59,7 @@ class LineChart:
         # set axis labels
         self._ax.xaxis.set_major_locator(MaxNLocator(integer=True))
         self._ax.set_xlabel("index")
-        self._ax.set_ylabel("target / prediction value")
+        self._ax.set_ylabel("target / prediction")
         self._ax.set_title("line chart")
 
         self._leg_map = init_pickable_legend(self._fig, loc="outside upper right")
