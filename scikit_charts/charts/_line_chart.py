@@ -20,8 +20,7 @@ from matplotlib.ticker import MaxNLocator
 from pandas import DataFrame
 
 from scikit_charts.metrics import PredictFunction, create_metrics, MetricEnum
-from scikit_charts.shared import \
-    MetricPlotMap, MetricLegendMap, on_legend_pick, init_pickable_legend
+from scikit_charts.shared import MetricPlotMap, PickableLegend
 
 
 class LineChart:
@@ -33,8 +32,8 @@ class LineChart:
     _fig: matplotlib.figure.Figure
     _ax: matplotlib.axes.Axes
 
+    _legend: PickableLegend
     _lines: MetricPlotMap
-    _leg_map: MetricLegendMap
 
     def __init__(self, metric_frame: DataFrame):
         self._metrics = metric_frame
@@ -62,17 +61,17 @@ class LineChart:
         self._ax.set_ylabel("target / prediction")
         self._ax.set_title("line chart")
 
-        self._leg_map = init_pickable_legend(self._fig, loc="outside upper right")
+        # init legend
+        self._legend = PickableLegend(self._fig, loc="outside upper right")
 
         # connect events
-        self._fig.canvas.mpl_connect("pick_event", lambda event: self.on_pick(event))
+        self._fig.canvas.mpl_connect("pick_event", lambda event: self._on_pick(event))
 
-    def on_pick(self, event: PickEvent):
-        has_changes = False
-        has_changes = on_legend_pick(event, self._lines, self._leg_map)
+    def _on_pick(self, event: PickEvent):
+        has_changes = self._legend.on_legend_pick(event, self._lines)
 
         if has_changes:
-            self._fig.canvas.draw()
+            self._fig.canvas.draw_idle()
 
     def get_figure(self) -> matplotlib.figure.Figure:
         """

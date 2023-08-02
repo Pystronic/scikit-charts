@@ -5,102 +5,97 @@ in the legend.
 
 This requires a setup of the pick-event: fig.canvas.mpl_connect("pick_event", on_pick)
 """
-from typing import TypeAlias, Dict, Tuple, Union
+from typing import Dict, Union, List, Tuple
 
+import matplotlib.artist
 import matplotlib.figure
 import matplotlib.legend
 import matplotlib.lines
+import matplotlib.patches
 import matplotlib.text
 from matplotlib.backend_bases import PickEvent
 
 from scikit_charts.metrics import MetricEnum
-from ._util import MetricPlotMap
+from scikit_charts.shared import MetricPlotMap
 
-MetricLegendMap: TypeAlias = Dict[
-    MetricEnum,
-    Tuple[matplotlib.lines.Line2D, matplotlib.text.Text]
-]
-"""
-Dictionary which maps a MetricEnum of the plotted data to
-the corresponding line + label in the legend.
-"""
 PICKER_OFFSET: int = 6
 """
 Offset interval for pickable entries in the legend.
 """
 
-
-def init_pickable_legend(
-        owner: Union[matplotlib.figure.Figure, matplotlib.axes.Axes],
-        loc: str | None = None
-) -> MetricLegendMap:
+class PickableLegend:
     """
-    Initialise a legend with pickable entries for
-    the given figure instance. The returned map
-    should be stored for responding to the pick event.
-    Labels need to be consistent between legend and plotted data.
-
-    :param owner: figure / axes which owns the legend and data
-    :param loc: placement of the legend; same as legend(loc)
-    :return: map which is used in the pick event to identify the
-    legend entries by metric
+    Legend implementation which allows to
+    toggle the display of data points by clicking
+    the label in the legend.
     """
-    # configure legend
-    legend: matplotlib.legend.Legend = owner.legend(loc=loc)
+    _owner: Union[matplotlib.figure.Figure, matplotlib.axes.Axes]
+    _legend: matplotlib.legend.Legend
 
-    line: matplotlib.lines.Line2D
-    text: matplotlib.text.Text
-    legend_dict: MetricLegendMap = {}
+    _handles: List[matplotlib.artist.Artist]
+    _texts: List[matplotlib.text.Text]
+    _label_handler_map: Dict[str, Tuple[matplotlib.text.Text, matplotlib.artist.Artist]]
 
-    # Map plotted lines + texts to legend handlers
-    for line in legend.get_lines():
-        line.set_picker(PICKER_OFFSET)
-        legend_dict[line.get_label()] = [line]
-    for text in legend.get_texts():
-        text.set_picker(PICKER_OFFSET)
-        legend_dict[text.get_text()].append(text)
+    def __init__(
+            self,
+            owner: Union[matplotlib.figure.Figure, matplotlib.axes.Axes],
+            loc: str | None = None
+    ):
+        """
+        Initialise a Legend with pickable entries for
+        the given Figure / Axes instance.
 
-    return legend_dict
+        :param owner: figure / axes which owns the legend and data
+        :param loc: placement of the legend; same as legend(loc)
+        """
+        # initializes data
+        self._owner = owner
+        self._legend = owner.legend(loc=loc)
+        self._handles = self._legend.legend_handles
+        self._texts = self._legend.get_texts()
 
+        # init mapping
+        self._label_handler_map = {}
+        text: matplotlib.text.Text
+        handler: matplotlib.artist.Artist
+        for text, handler in zip(self._texts, self._handles):
+            text.set_picker(PICKER_OFFSET)
+            handler.set_picker(PICKER_OFFSET)
+            self._label_handler_map[text.get_text()] = (text, handler)
 
-def on_legend_pick(
-    event: PickEvent,
-    plot_map: MetricPlotMap,
-    leg_map: MetricLegendMap
-) -> bool:
-    """
-    Should be called within on_pick to react to the
-    pick-events of legend entries.
+    def on_legend_pick(self, event: PickEvent, plot_map: MetricPlotMap) -> bool:
+        """
+        Should be called within on_pick to react to the
+        pick-events of legend entries.
 
-    :param event: PickEvent which was passed to on_pick
-    :param plot_map: mapping from MetricEnum to plotted data
-    :param leg_map: mapping from MetricEnum to corresponding
-    legend entry
-    :return: if the ui changed and requires a redraw
-    """
-    event_target = event.artist
-    label: MetricEnum
+        :param event: PickEvent which was passed to on_pick
+        :param plot_map: mapping from MetricEnum to plotted data
+        :return: if the ui changed and requires a redraw
+        """
+        event_target = event.artist
+        label: MetricEnum
 
-    if isinstance(event_target, matplotlib.lines.Line2D):
-        label = event_target.get_label()
-    elif isinstance(event_target, matplotlib.text.Text):
-        label = event_target.get_text()
-    else:
-        return False
+        if isinstance(event_target, matplotlib.text.Text):
+            label = event_target.get_text()
+        elif isinstance(event_target, matplotlib.artist.Artist):
+            label = event_target.get_label()
+        else:
+            return False
 
-    # Label does not exist for some reason
-    if label not in plot_map:
-        return False
+        # Label does not exist for some reason
+        if label not in plot_map:
+            return False
 
-    picked_lines = plot_map[label]
-    visible = False
-    for line in picked_lines:
-        visible = visible or not line.get_visible()
-        line.set_visible(visible)
+        picked_artists = plot_map[label]
+        visible = False
+        artist: matplotlib.artist.Artist
+        for artist in picked_artists:
+            visible = visible or not artist.get_visible()
+            artist.set_visible(visible)
 
-    # Change the alpha on the line in the legend, so we can see what lines
-    # have been toggled.
-    for entry in leg_map[label]:
-        entry.set_alpha(1.0 if visible else 0.2)
+        # Change the alpha on the entry in the legend, so we can see what lines
+        # have been toggled.
+        for entry in self._label_handler_map[label]:
+            entry.set_alpha(1.0 if visible else 0.2)
 
-    return True
+        return True
