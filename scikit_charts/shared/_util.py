@@ -51,7 +51,8 @@ def set_visible_deep(artist: matplotlib.artist.Artist, visible: bool):
 def auto_limit_axis(
         axis: AxisEnum,
         ax: matplotlib.axes.Axes,
-        data: np.typing.ArrayLike
+        data: np.typing.ArrayLike,
+        relative_margin: float = 0.2
 ) -> Tuple[float, float]:
     """
     Automatically update the limit of the
@@ -60,10 +61,12 @@ def auto_limit_axis(
     :param axis: identifies the Axis to limit
     :param ax:  Axes which owns the Axis
     :param data: data which the limit is based on
+    :param relative_margin: the relative distance
+    of the limit from range between min and max
     :returns: new limit of the Axis
     """
     data_range = (np.min(data), np.max(data))
-    inset = (data_range[0] + data_range[1]) * 0.2
+    inset = abs(data_range[1] - data_range[0]) * relative_margin
     data_range = (data_range[0] - inset, data_range[1] + inset)
 
     if axis == AxisEnum.X:
@@ -74,21 +77,22 @@ def auto_limit_axis(
 
 
 def args_in_range(
-        data: np.typing.ArrayLike, data_range: Tuple[float, float]
+        data: np.ndarray,
+        data_range: Tuple[float, float]
 ) -> np.ndarray[float]:
     """
     Returns the indices of the elements in the array,
-    which is within the given range.
+    which is within the given inclusive range.
     """
     return np.where(
         np.logical_and(
             data >= data_range[0],
             data <= data_range[1]
         )
-    )
+    )[0]
 
 
-def arg_nearest(a: np.typing.ArrayLike, val) -> int:
+def arg_nearest(a: np.ndarray, val) -> int:
     """
     Returns the index of the nearest value within
     the given array.
