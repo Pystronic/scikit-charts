@@ -6,7 +6,7 @@ scikit_charts.charts.
 """
 
 from enum import StrEnum
-from typing import TypeAlias, Callable, Final, Tuple, Union
+from typing import TypeAlias, Callable, Final, Tuple, Union, List
 
 import numpy as np
 from pandas import DataFrame
@@ -16,7 +16,7 @@ METRIC_DTYPE: Final = np.float64
 Datatype which is internally used to store metric values.
 """
 
-PredictFunction: TypeAlias = Callable[[Tuple[float]], float]
+PredictFunction: TypeAlias = Callable[[Tuple[float] | List[float]], float]
 """
 Interface of a prediction function, which takes one or more 
 X values and returns the predicted Y value.
@@ -119,7 +119,7 @@ def _generate_predictions(x: np.ndarray, predict: PredictFunction) -> [float]:
             prediction_col.append(predict(features))
         except Exception as exc:
             raise PredictionException(
-                f"Exception occurred while calculating prediction. x:{features}"
-            ) from exc
+                f"Exception occurred while calculating prediction. x:{features} \n\t{exc}"
+            )
 
     return prediction_col

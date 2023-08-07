@@ -23,7 +23,8 @@ from matplotlib import pyplot as plt
 from pandas import DataFrame
 
 from scikit_charts.metrics import PredictFunction, create_metrics, MetricEnum, METRIC_DTYPE
-from scikit_charts.shared import RadioUISelect, RadioSelect, AxesButton, AxesSlider, auto_limit_axis
+from scikit_charts.shared import (RadioUISelect, RadioSelect, AxesButton, AxesSlider,
+                                  auto_limit_axis, DEFAULT_PLOT_COLOR)
 from scikit_charts.shared import AxisEnum
 
 ############## Constants ###################
@@ -45,6 +46,7 @@ BTN_COLOR_IMAGE_X: Final[PIL.Image.Image] = \
     PIL.Image.open(Path(__file__).parent.joinpath("img/color_btn_x.png"))
 BTN_COLOR_IMAGE_Y: Final[PIL.Image.Image] = \
     PIL.Image.open(Path(__file__).parent.joinpath("img/color_btn_y.png"))
+
 
 #############################################
 
@@ -167,7 +169,6 @@ class BubbleChart:
             "Bubble size"
         )
 
-
     def _init_additional_options(self):
         """
         initialize the ui areas containing
@@ -219,7 +220,6 @@ class BubbleChart:
             lambda event: self.reset(),
             (PADDING, PADDING, UI_SIDEBAR_WIDTH, 0.1)
         )
-
 
     def _update_x_data(self, x_label: MetricEnum | None) -> bool:
         if x_label is not None:
@@ -313,7 +313,7 @@ class BubbleChart:
             if self._color_map is not None and self._color_norm is not None:
                 color_data = self._color_data
             else:
-                color_data = "#1f77b4"
+                color_data = DEFAULT_PLOT_COLOR
 
             self._plot_data = self._ax.scatter(
                 self._x_data,

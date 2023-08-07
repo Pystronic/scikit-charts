@@ -7,9 +7,11 @@ displayed by calling the plot-function of the returned object.
 from ._line_chart import line_chart
 from ._scatter_plot import scatter_plot
 from ._bubble_chart import bubble_chart
+from ._partial_dependency_plot import partial_dependency_plot
 
 __all__ = [
     "line_chart",
     "scatter_plot",
-    "bubble_chart"
+    "bubble_chart",
+    "partial_dependency_plot"
 ]

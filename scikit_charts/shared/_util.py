@@ -3,14 +3,15 @@ This module contains general type definitions and functions
 which cannot be grouped more specifically.
 """
 from enum import IntEnum
-from typing import Dict, TypeAlias, List, Tuple, Callable
+from typing import Dict, TypeAlias, List, Tuple, Callable, Final
 
 import PIL.Image
-import matplotlib.lines
 import matplotlib.artist
 import matplotlib.axes
 import matplotlib.figure
 import numpy as np
+import numpy.typing
+
 from matplotlib.widgets import Button, Slider, CheckButtons
 
 from scikit_charts.metrics import MetricEnum
@@ -22,6 +23,11 @@ MetricPlotMap: TypeAlias = Dict[
 """
 Dictionary which maps a MetricEnum to the instances
 of plotted data of an axes or figure object.
+"""
+
+DEFAULT_PLOT_COLOR: Final[str] = "#1f77b4"
+"""
+Default color used by matplotlib for plotting.
 """
 
 
@@ -45,7 +51,7 @@ def set_visible_deep(artist: matplotlib.artist.Artist, visible: bool):
 def auto_limit_axis(
         axis: AxisEnum,
         ax: matplotlib.axes.Axes,
-        data: np.ndarray[float]
+        data: np.typing.ArrayLike
 ) -> Tuple[float, float]:
     """
     Automatically update the limit of the
@@ -67,8 +73,8 @@ def auto_limit_axis(
     return data_range
 
 
-def indices_in_range(
-        data: np.ndarray[float], data_range: Tuple[float, float]
+def args_in_range(
+        data: np.typing.ArrayLike, data_range: Tuple[float, float]
 ) -> np.ndarray[float]:
     """
     Returns the indices of the elements in the array,
@@ -80,6 +86,17 @@ def indices_in_range(
             data <= data_range[1]
         )
     )
+
+
+def arg_nearest(a: np.typing.ArrayLike, val) -> int:
+    """
+    Returns the index of the nearest value within
+    the given array.
+    """
+    return np.abs(a - val).argmin()
+
+
+######################## Classes ########################
 
 
 class AxesButton:
@@ -95,12 +112,12 @@ class AxesButton:
     _on_click: Callable[[], None]
 
     def __init__(
-        self,
-        parent: matplotlib.figure.Figure,
-        label: str,
-        on_click: Callable[[], None],
-        position: Tuple[float, float, float, float],
-        image: PIL.Image.Image | None = None
+            self,
+            parent: matplotlib.figure.Figure,
+            label: str,
+            on_click: Callable[[], None],
+            position: Tuple[float, float, float, float],
+            image: PIL.Image.Image | None = None
     ):
         """
         Initialise a new button on the Figure.
@@ -148,13 +165,13 @@ class AxesSlider:
     _on_changed: Callable[[float], None]
 
     def __init__(
-        self,
-        parent: matplotlib.figure.Figure,
-        label: str | None,
-        val_range: Tuple[float, float],
-        initial_val: float,
-        on_changed: Callable[[float], None],
-        position: Tuple[float, float, float, float]
+            self,
+            parent: matplotlib.figure.Figure,
+            label: str | None,
+            val_range: Tuple[float, float],
+            initial_val: float,
+            on_changed: Callable[[float], None],
+            position: Tuple[float, float, float, float]
     ):
         """
         Initialise a new slider on the Figure.
@@ -220,13 +237,13 @@ class AxesCheckboxes:
     _on_check_callback: Callable[[str, bool], None]
 
     def __init__(
-        self,
-        parent: matplotlib.figure.Figure,
-        labels: List[str],
-        title: str | None,
-        on_check_changed: Callable[[str, bool], None],
-        position: Tuple[float, float, float, float],
-        active_labels: Tuple[str] = (),
+            self,
+            parent: matplotlib.figure.Figure,
+            labels: List[str],
+            title: str | None,
+            on_check_changed: Callable[[str, bool], None],
+            position: Tuple[float, float, float, float],
+            active_labels: Tuple[str] = (),
     ):
         """
         Initialise new CheckButtons on the Figure.
@@ -278,4 +295,3 @@ class AxesCheckboxes:
         Return the axes element which contains the control.
         """
         return self._container
-
