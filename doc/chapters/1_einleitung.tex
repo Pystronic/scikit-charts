@@ -1,0 +1,66 @@
+\chapter{Einleitung}
+\label{cha:Einleitung}
+
+% (GK-2) Python Dashboard für die Analyse von ML-Modellen
+% Bei der Anwendung von Machine Learning-Algorithmen sind oft verschiedenste komplexe
+% Analysen der generierten Modelle mithilfe von Visualisierungen nötig. Die Erstellung solcher
+% Analysen nimmt viel Zeit in Anspruch. Ziel dieser Arbeit ist die Entwicklung eines interakti-
+% ven Dashboards in Python, welches eine Palette an Standardvisualisierungen und -maßzahlen
+% beinhaltet. Dieses Dashboard soll ohne großen Aufwand für Regressionsmodelle aus z.B. scikit-learn aufrufbar sein und für Datenanalyseumgebungen wie Jupyter Notebooks integrierbar
+% sein. Dieses Dashboard kann sich funktional an den Analysemöglichkeiten von HeuristicLab
+% (https://github.com/heal-research/heuristiclab) orientieren, welche solche Visualisierungen für
+% die darin integrierten Algorithmen bietet.
+% Eine open-source Veröffentlichung des entwickelten Dashboards z.B.: auf GitHub ist erwünscht, aber nicht zwingend notwendig.
+
+% Aufgaben:
+%   - Motivation verbessern basierend auf Notizen
+%   - Problemstellung-Beginn enstprechend der Motivation anpassen
+%   - Nochmal drüberlesen
+
+\section{Motivation}
+\label{sec:Motivation}
+
+%
+% Warum thema allgemein relevant: Regression / Machine-Learning
+% relevant geworden in den letzten Jahren
+% Oft verwendet dabei: Regression
+% Datenanalyse und Machine-Learning sind in den letzten Jahren ...
+% Referenz Python / Scikit-learn
+
+Ein wichtiges Werkzeug der Datenanalyse ist die Regression. Eine Einführung zu diesem Thema findet sich in der Literatur \parencite{RegressionGrundlagen}. Demnach ist die Regression eine Möglichkeit um den Einfluss einzelner Faktoren auf ein Ergebnis zu modellieren. Eine Analyse des Modells erlaubt dann, Rückschlüsse auf die einzelnen Faktoren zu treffen. Die Analyse aus rohen mathematischen Daten ist jedoch aufwendig. Aus\linebreak diesem Grund werden die Daten meistens mittels Diagrammen visualisiert. Die grafische Darstellung erleichtert es die Strukturen in den Daten zu erkennen.
+
+\section{Problemstellung}
+\label{sec:Problemstellung}
+
+Die Entwicklung von Regressionsmodellen benötigt komplexe Visualisierungen zur Analyse der generierten Modelle. Die Implementierung dieser Visualisierungen ist jedoch repetitiv, zeitintensiv und erfordert umfangreiches Wissen über Bibliotheken und Werkzeuge. Bestehende Bibliotheken versuchen diesen Schritt für Anwender:innen zu vereinfachen. Sie beschränken sich jedoch oft auf zu spezifische oder simple Visualisierungen mit wenig Möglichkeiten der Interaktivität. Dadurch ist ihre Anwendung nur mit Einschränkungen möglich. Zur Lösung dieses Problems wird eine neue Bibliothek zur Visualisierung benötigt. Diese Bibliothek soll sowohl einfach in bestehende Projekte integrierbar sein, als auch dynamische Analysen durch Interaktivität ermöglichen.
+
+% Old text:
+%Die Python-Bibliothek scikit-learn bietet eine einheitliche API zur Implementierung von Regressionsmodellen (\cite{scikit-learn}).
+%Es fehlen jedoch allgemeine Funktion zur Visualisierung der Modelle. Stattdessen erfolgt die Visualisierung in den offiziellen Beispielen
+%mithilfe der Bibliothek Matplot (\cite{Matplot}). Die Bibliothek bietet eine flexible Möglichkeit für die Darstellung von Diagrammen. Es ist jedoch auch ein zusätzlichen Aufwand für die Entwickler dieser Modelle. Sowohl durch das Lernen der API, als auch durch die Implementierung der Diagramme. Dabei handelt es sich um verschwendeten Aufwand, vor allem wenn die gleichen Arten von Diagrammen mehrmals benötigt werden. Eine bessere Variante wäre es, diese als eine Bibliothek zur Verfügung zu stellen.
+
+\clearpage
+
+\section{Zielsetzung}
+\label{sec:Zielsetzung}
+
+% Was ist nun das konkrete Ziel?
+%   - Fokus auf Interaktivität für Visualisierungen + einfache Anwendung
+%   - Oriniterung nach Heuristic-Lab Visualisierung + Metriken (& Begründung)
+%   - Wahl konkreter Diagramm-Arten
+%   - Integrierung von Technologien:
+%       - Python als Entwicklung (Referenz auch in Motivtaion)
+%       - Scikit-learn als basis für unterstützte Modelle (Why?)
+%       - Jupyter unterstützung wegen hoher Popularität
+
+
+Ziel dieser Arbeit ist die Implementierung einer Python-Bibliothek zur interaktiven\linebreak Visualisierung für Regressionsmodelle. Bei der Auswahl an unterstützten Metriken und Diagramme wird sich an der Anwendung HeuristicLab (\cite{HeuristicLab}) orientiert. Dabei handelt es sich um eine vollständige Entwicklungsumgebung zur\linebreak Lösung von Optimierungproblemen. Teile des Funktionumfangs der Anwendung ermöglichen ebenfalls die Entwicklung und Analyse von Regressionsmodellen. Heuristiclab findet häufig Anwendung in der Forschung. Es handelt sich daher um eine gute Quelle für die Anforderungen an die Bibliothek. Aus Heuristiclab sollen vier Diagrammtypen implementiert werden: scatter-plot, line-chart, intersection-plot und bubble-chart. Die Bibliothek selbst soll einfach in bestehende Python-Projekte integrierbar sein. Dafür sollen Modelle der populäre Bibliothek Scikit-learn unterstützt werden. Des Weiteren ist die Integrierbarkeit der Diagramme in Jupyter Notebooks erforderlich.
+
+%Im Rahmen der Bachelorarbeit sollen vier Diagrammtypen, für Regressionsmodelle in scikit-learn, implementiert werden.
+%Diese sind scatter-plot, line-chart, intersection-plot und bubble-chart. \newline\newline
+%Die Implementierungen sollen als Bibliothek zur Verfügung gestellt werden und die bestehende scikit-learn API integrieren.
+%Alle benötigten Metriken sollen aus den Datensatz und dem Regressionsmodell gesammelt werden.
+%Ein besonderer Fokus liegt auf der Unterstützung von Jupyter Notebook. Die Diagramme sollen korrekt angezeigt
+%werden. Außerdem sollen die dynamische Interaktion ebenfalls funktionieren.
+%Die Features der Diagramme sollen sich an HeuristicLab (\cite{HeuristicLab}) orientieren. Die genaue Analyse und Beschreibung dieser
+%ist im Kapitel \ref{cha:Metriken_Diagramme} auffindbar.

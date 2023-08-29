@@ -1,0 +1,104 @@
+%%% File encoding: UTF-8
+%%% äöüÄÖÜß  <-- no German umlauts here? Use an UTF-8 compatible editor!
+
+%%% Magic comments for setting the correct parameters in compatible IDEs
+% !TeX encoding = utf8
+% !TeX program = pdflatex 
+% !TeX spellcheck = en_GB
+% !BIB program = biber
+
+\documentclass[bachelor,german,smartquotes,apa]{hgbthesis}
+% Valid options in [..]: 
+%    Type of work: 'diploma', 'master' (default), 'bachelor', 'internship' 
+%    Main language: 'german' (default), 'english'
+%    Turn on smart quote handling: 'smartquotes'
+%    APA bibliography style: 'apa'
+%%%-----------------------------------------------------------------------------
+
+\RequirePackage[utf8]{inputenc} % Remove when using lualatex or xelatex!
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% Custom requirements %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Align multi line footnotes
+\usepackage[hang]{footmisc}
+% Add subfigures and captions
+\usepackage{subcaption}
+% add automatic glossary support
+\usepackage[acronym]{glossaries}
+\usepackage{wrapfig}
+
+\graphicspath{{images/}}  % Location of images and graphics
+\logofile{logo}           % Logo file: images/logo.pdf (no logo: \logofile{})
+\bibliography{references} % Biblatex bibliography file (references.bib)
+
+%%%-----------------------------------------------------------------------------
+% Title page entries
+%%%-----------------------------------------------------------------------------
+
+\title{scikit-charts: Bibliothek zur Visualisierung von Regressionsmodellen}
+\author{Philipp Beneder}
+\programname{Software-Engineering}
+
+\programtype{Fachhochschul-Bachelorstudiengang} % select/edit
+%\programtype{Fachhochschul-Masterstudiengang}
+
+\placeofstudy{Hagenberg}
+\dateofsubmission{2023}{08}{23} % {YYYY}{MM}{DD} TODO
+
+\advisor{DI Dr. Gabriel Kronberger} % optional
+
+%\strictlicense % restrictive license instead of Creative Commons (discouraged!)
+
+%%%-----------------------------------------------------------------------------
+\begin{document}
+%%%-----------------------------------------------------------------------------
+
+%%%-----------------------------------------------------------------------------
+\frontmatter                                   % Front part (roman page numbers)
+%%%-----------------------------------------------------------------------------
+
+\maketitle
+\tableofcontents
+
+\include{front/preface} % A preface is optional
+\include{front/abstract}		
+\include{front/kurzfassung}			
+
+%%%-----------------------------------------------------------------------------
+\mainmatter                                    % Main part (arabic page numbers)
+%%%-----------------------------------------------------------------------------
+
+\include{chapters/1_einleitung}
+\include{chapters/2_grundlagen}
+\include{chapters/3_metriken_diagramme}
+\include{chapters/4_state_of_the_art}
+\include{chapters/5_design}
+\include{chapters/6_implementierung}
+\include{chapters/7_evaluierung}
+
+%%%-----------------------------------------------------------------------------
+\appendix                                                             % Appendix 
+%%%-----------------------------------------------------------------------------
+
+% TODO
+%\include{back/appendix_a} % Technical supplements
+%\include{back/appendix_b} % Contents of the CD-ROM/DVD
+%\include{back/appendix_c} % Chronological list of changes
+%\include{back/appendix_d} % Source text of this document
+
+%%%-----------------------------------------------------------------------------
+\backmatter                           % Back part (bibliography, glossary, etc.)
+%%%-----------------------------------------------------------------------------
+
+\MakeBibliography % References
+%%% Uncomment if actually used
+%\include{back/glossar.tex}
+
+%%%-----------------------------------------------------------------------------
+% Special page for checking print size
+%%%-----------------------------------------------------------------------------
+
+\include{back/printbox}
+
+%%%-----------------------------------------------------------------------------
+\end{document}
+%%%-----------------------------------------------------------------------------

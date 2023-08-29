@@ -85,13 +85,14 @@ class ToggleableRectangleSelector:
             self._on_active_changed(new_state)
 
     def _on_select(self, e_click: MouseEvent, e_release: MouseEvent):
-        min_pos = (e_click.xdata, e_click.ydata)
-        max_pos = (e_release.xdata, e_release.ydata)
+        min_x = min(e_click.xdata, e_release.xdata)
+        max_x = max(e_click.xdata, e_release.xdata)
 
-        if np.sum(min_pos) > np.sum(max_pos):
-            tmp = min_pos
-            min_pos = max_pos
-            max_pos = tmp
+        min_y = min(e_click.ydata, e_release.ydata)
+        max_y = max(e_click.ydata, e_release.ydata)
+
+        min_pos = (min_x, min_y)
+        max_pos = (max_x, max_y)
 
         self._on_select_callback(min_pos, max_pos)
 

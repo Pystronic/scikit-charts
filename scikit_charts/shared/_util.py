@@ -9,14 +9,14 @@ import PIL.Image
 import matplotlib.artist
 import matplotlib.axes
 import matplotlib.figure
+
 import numpy as np
-import numpy.typing
 
 from matplotlib.widgets import Button, Slider, CheckButtons
 
 from scikit_charts.metrics import MetricEnum
 
-MetricPlotMap: TypeAlias = Dict[
+DataPlotMap: TypeAlias = Dict[
     MetricEnum,
     List[matplotlib.artist.Artist]
 ]

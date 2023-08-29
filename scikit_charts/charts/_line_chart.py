@@ -20,7 +20,7 @@ from matplotlib.ticker import MaxNLocator
 from pandas import DataFrame
 
 from scikit_charts.metrics import PredictFunction, create_metrics, MetricEnum
-from scikit_charts.shared import MetricPlotMap, PickableLegend
+from scikit_charts.shared import DataPlotMap, PickableLegend
 
 
 class LineChart:
@@ -33,7 +33,7 @@ class LineChart:
     _ax: matplotlib.axes.Axes
 
     _legend: PickableLegend
-    _lines: MetricPlotMap
+    _lines: DataPlotMap
 
     def __init__(self, metric_frame: DataFrame):
         self._metrics = metric_frame

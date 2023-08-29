@@ -18,15 +18,15 @@ import matplotlib.axes
 import matplotlib.lines
 import matplotlib.patches
 import matplotlib.widgets
-import matplotlib.gridspec as gridspec
+from matplotlib import gridspec
 from matplotlib import pyplot as plt
-
-from sklearn.base import is_regressor
-from sklearn.inspection import partial_dependence
 
 import numpy as np
 
+from sklearn.base import is_regressor
+from sklearn.inspection import partial_dependence
 from sklearn.utils.validation import check_is_fitted
+
 from scikit_charts.metrics import METRIC_DTYPE
 from scikit_charts.shared import DraggableAxvline, arg_nearest, DEFAULT_PLOT_COLOR, AxesButton
 
@@ -364,9 +364,12 @@ class PartialDependencyPlot:
             self._pdp_dict[i_feature] = feature_values[i_value]
 
         # initialise axes
-        rows = int(1 + len(self._features) / columns)
+        rows = int(len(self._features) / columns)
+        if len(self._features) % columns != 0:
+            rows += 1
+
         self._grid_spec = gridspec.GridSpec(
-            rows, columns, hspace=0.05, figure=self._fig
+            rows, columns, hspace=0.2 * (rows - 1), figure=self._fig
         )
         self._init_axes(rows, columns)
         self._update_row_labels()
@@ -591,7 +594,7 @@ def partial_dependency_plot(
         features: List[int],
         columns: int = 3,
         density: int = 50,
-        hide_options = False
+        hide_options=False
 ) -> matplotlib.figure.Figure:
     """
     Instantiate a new partial dependency plot instance from the

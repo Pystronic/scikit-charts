@@ -16,7 +16,7 @@ import matplotlib.text
 from matplotlib.backend_bases import PickEvent
 
 from scikit_charts.metrics import MetricEnum
-from scikit_charts.shared import MetricPlotMap
+from scikit_charts.shared import DataPlotMap
 
 PICKER_OFFSET: int = 6
 """
@@ -63,7 +63,7 @@ class PickableLegend:
             handler.set_picker(PICKER_OFFSET)
             self._label_handler_map[text.get_text()] = (text, handler)
 
-    def on_legend_pick(self, event: PickEvent, plot_map: MetricPlotMap) -> bool:
+    def on_legend_pick(self, event: PickEvent, plot_map: DataPlotMap) -> bool:
         """
         Should be called within on_pick to react to the
         pick-events of legend entries.

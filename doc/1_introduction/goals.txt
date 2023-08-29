@@ -1,6 +1,0 @@
-The main goal is developing an interactive dashboard in python. 
-The dashboard compares expected and actual result indicators of regression-models, using diagrams.
-Integration with scikit-learn and rendering within JuPyter is required. 
-The provided diagrams should be similar to HeuristicLab (https://github.com/heal-research/heuristiclab). 
-Namely: scatter-plott, line-chart, intersection-plot and bubble-chart. 
-An additional goal is releasing the library as open-source. Thus requiring unit-tests, a simple api and documentation.

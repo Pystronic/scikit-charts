@@ -2,7 +2,7 @@
 This file contains the implementation of the bubble chart.
 Call bubble_chart() to create a new instance.
 
-This chart is use to compare multiple metrics at once.
+This chart is used to compare multiple metrics at once.
 Metrics can be applied dynamically to both axis. It
 is also possible to adjust the bubble size and change
 the bubble color.
@@ -23,9 +23,8 @@ from matplotlib import pyplot as plt
 from pandas import DataFrame
 
 from scikit_charts.metrics import PredictFunction, create_metrics, MetricEnum, METRIC_DTYPE
-from scikit_charts.shared import (RadioUISelect, RadioSelect, AxesButton, AxesSlider,
-                                  auto_limit_axis, DEFAULT_PLOT_COLOR)
-from scikit_charts.shared import AxisEnum
+from scikit_charts.shared import (RadioUISelect, AxesRadio, AxesButton, AxesSlider,
+                                  auto_limit_axis, DEFAULT_PLOT_COLOR, AxisEnum)
 
 ############## Constants ###################
 
@@ -63,9 +62,9 @@ class BubbleChart:
 
     # ui axes
     _tab_select: RadioUISelect
-    _x_radio: RadioSelect
-    _y_radio: RadioSelect
-    _bubble_radio: RadioSelect
+    _x_radio: AxesRadio
+    _y_radio: AxesRadio
+    _bubble_radio: AxesRadio
     _additional_options: matplotlib.axes.Axes
 
     # additional options ui elements
@@ -83,14 +82,14 @@ class BubbleChart:
     _color_data: np.ndarray[float]
     _color_map: matplotlib.colors.Colormap | None = None
     _color_norm: matplotlib.colors.Normalize | None = None
-    _alpha: float = 1
+    _transparency: float = 1
 
     # plotted data
     _x_data: np.ndarray[float]
     _y_data: np.ndarray[float]
     _bubble_size: np.ndarray[float]
 
-    _plot_data: matplotlib.collections.PathCollection
+    _plot_data: matplotlib.collections.PathCollection | None = None
 
     def __init__(self, metric_frame: DataFrame):
         self._metrics = metric_frame
@@ -142,7 +141,7 @@ class BubbleChart:
         x-axis, y-axis and bubble size.
         """
         column_list: List[str] = [INDEX_DATA_LABEL] + list(self._metrics.columns)
-        self._x_radio = RadioSelect(
+        self._x_radio = AxesRadio(
             self._fig,
             column_list,
             column_list.index(MetricEnum.PREDICTION),
@@ -151,7 +150,7 @@ class BubbleChart:
             "X data"
         )
 
-        self._y_radio = RadioSelect(
+        self._y_radio = AxesRadio(
             self._fig,
             column_list,
             column_list.index(MetricEnum.TARGET),
@@ -160,7 +159,7 @@ class BubbleChart:
             "Y data"
         )
 
-        self._bubble_radio = RadioSelect(
+        self._bubble_radio = AxesRadio(
             self._fig,
             [CONSTANT_BUBBLE_LABEL] + column_list,
             0,
@@ -199,17 +198,17 @@ class BubbleChart:
         )
 
         # alpha slider
-        def on_alpha_changed(new_value: float):
-            self._alpha = new_value
+        def on_transparency_changed(new_value: float):
+            self._transparency = new_value
             self._update_plot_data(update_color=True)
 
-        self._alpha = 1
+        self._transparency = 0
         self._alpha_slider = AxesSlider(
             self._fig,
             "Transparency:",
             (0, 1),
-            self._alpha,
-            on_alpha_changed,
+            self._transparency,
+            on_transparency_changed,
             (PADDING + 0.01, 0.40, UI_SIDEBAR_WIDTH - PADDING, 0.1),
         )
 
@@ -306,8 +305,9 @@ class BubbleChart:
 
         # plot data
         if has_changes or update_color:
-            if not first_draw:
+            if not first_draw and self._plot_data is not None:
                 self._plot_data.remove()
+                self._plot_data = None
 
             color_data: str | np.ndarray[float]
             if self._color_map is not None and self._color_norm is not None:
@@ -322,7 +322,7 @@ class BubbleChart:
                 color_data,
                 cmap=self._color_map,
                 norm=self._color_norm,
-                alpha=self._alpha
+                alpha=1-self._transparency
             )
             self._fig.canvas.draw_idle()
 
@@ -333,7 +333,7 @@ class BubbleChart:
         # reset data
         self._color_map = None
         self._color_norm = None
-        self._alpha = 1
+        self._transparency = 1
 
         # reset interactive ui
         self._x_radio.set_selected_label(MetricEnum.PREDICTION)

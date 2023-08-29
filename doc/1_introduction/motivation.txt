@@ -1,6 +1,0 @@
-Regression analysis is a great way to interfere, analyse and describe variables from data.
-Therefore, competing with modern machine learning methods, like neural networks and generative algorithms.
-However, more explainable results and cheaper training make it stand out among the rest.
-Further supporting regression is an abundance of open source python libraries.
-Libraries like scikit-learn; offering classes and algorithms, free of charge.
-This makes regression a great tool for developers and data analysts.

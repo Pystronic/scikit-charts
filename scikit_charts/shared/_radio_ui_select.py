@@ -10,7 +10,7 @@ import matplotlib.figure
 import matplotlib.artist
 
 from scikit_charts.shared import set_visible_deep
-from scikit_charts.shared import RadioSelect
+from scikit_charts.shared import AxesRadio
 
 
 class RadioUISelect:
@@ -21,7 +21,7 @@ class RadioUISelect:
     displayed, while the rest is hidden.
     """
     _parent: matplotlib.figure.Figure
-    _select: RadioSelect
+    _select: AxesRadio
 
     _tabs: List[List[matplotlib.artist.Artist]]
     _active_tab: int
@@ -65,7 +65,7 @@ class RadioUISelect:
                 set_visible_deep(artist, False)
 
         # init ui elements
-        self._select = RadioSelect(
+        self._select = AxesRadio(
             self._parent,
             labels,
             self._active_tab,

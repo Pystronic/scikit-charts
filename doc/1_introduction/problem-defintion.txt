@@ -1,6 +1,0 @@
-Diagrams are used to interpret regression model results.
-Therefore being integral to many math libraries. However, the implementation is often not ideal.
-The provided api is use-case specific. The resulting diagrams are static and do not allow interaction. 
-This makes data exploration cumbersome.
-The preferable solution is a generic dashboard for models. It should be both flexible to use in the code,
-and provide powerful user interaction.
