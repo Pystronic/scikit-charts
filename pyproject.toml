@@ -1,17 +1,17 @@
 [tool.poetry]
 name = "scikit-charts"
-version = "0.1.0"
+version = "0.1.1"
 description = "Library to visualize regression models that were developed with scikit-learn."
 authors = ["Philipp Beneder"]
 readme = "README.md"
 packages = [{include = "scikit_charts"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
-numpy = "^1.25.1"
+python = "^3.10"
+numpy = "^1.25.0"
 pandas = "^2.0.3"
-matplotlib = "^3.7.2"
-ipympl = "^0.9.3"
+matplotlib = "^3.7.0"
+ipympl = "^0.9.0"
 scikit-learn = "^1.3.0"
 
 [tool.poetry.group.dev.dependencies]
