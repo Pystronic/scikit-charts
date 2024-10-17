@@ -5,11 +5,16 @@ displayed using the charts implemented in
 scikit_charts.charts.
 """
 
-from enum import StrEnum
 from typing import TypeAlias, Callable, Final, Tuple, Union, List
 
 import numpy as np
 from pandas import DataFrame
+
+"""
+Backwards compatible string enum class.
+"""
+class StrEnum(str, Enum):
+    pass
 
 METRIC_DTYPE: Final = np.float64
 """
