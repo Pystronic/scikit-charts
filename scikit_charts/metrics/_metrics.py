@@ -6,6 +6,7 @@ scikit_charts.charts.
 """
 
 from typing import TypeAlias, Callable, Final, Tuple, Union, List
+from enum import Enum
 
 import numpy as np
 from pandas import DataFrame
